@@ -1,0 +1,45 @@
+# ===============================
+# Python
+# ===============================
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Virtual Environment
+backend/venv/
+
+# Environment Variables
+backend/.env
+
+# Python Logs
+*.log
+
+# ===============================
+# Node.js
+# ===============================
+frontend/node_modules/
+frontend/dist/
+
+# ===============================
+# VS Code
+# ===============================
+.vscode/
+
+# ===============================
+# Operating System Files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Coverage & Testing
+# ===============================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ===============================
+# Miscellaneous
+# ===============================
+*.swp
+*.swo
