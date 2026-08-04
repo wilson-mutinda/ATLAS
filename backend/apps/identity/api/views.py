@@ -3,7 +3,9 @@ from rest_framework.permissions import AllowAny
 from apps.identity.serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK
-from apps.identity.api.serializers import LoginSerializer
+from apps.identity.api.serializers import (
+    LoginSerializer, CurrentUserSerializer
+)
 from rest_framework_simplejwt import tokens
 
 class RegisterAPIView(APIView):
@@ -55,5 +57,16 @@ class LoginAPIView(APIView):
                 },
             },
             status= HTTP_200_OK,
+        )
+
+class CurrentUserAPIView(APIView):
+    def get(self, request):
+        serializer = CurrentUserSerializer(request.user)
+
+        return Response(
+            {
+                "user": serializer.data,
+            },
+            status=HTTP_200_OK,
         )
     

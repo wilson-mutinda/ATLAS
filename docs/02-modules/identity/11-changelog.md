@@ -18,6 +18,22 @@
 * All four Login tests pass.
 ---
 
+## [0.3.0] - 2026-08-04
+
+### Added
+
+- Implemented `GET /api/v1/auth/me/`.
+- Added authenticated user profile retrieval.
+- Added automated tests for authenticated profile access.
+- Added automated tests for unauthenticated profile access.
+
+### Verified
+
+- Authenticated requests return the current user's profile.
+- Requests without a valid access token return `401 Unauthorized`.
+- All Identity tests pass successfully.
+---
+
 ## Version 0.1.0 — August 3, 2026
 
 ### Added

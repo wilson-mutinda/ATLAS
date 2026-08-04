@@ -73,13 +73,13 @@ This document tracks the implementation progress of the Identity module.
 | ------- | ------------------------------- | -------- |
 | `GET`   | `/api/v1/health/`               | Complete |
 | `POST`  | `/api/v1/auth/register/`        | Complete |
-| `POST`  | `/api/v1/auth/login/`           | Next     |
-| `POST`  | `/api/v1/auth/token/refresh/`   | Planned  |
-| `GET`   | `/api/v1/auth/me/`              | Planned  |
-| `PATCH` | `/api/v1/auth/me/`              | Planned  |
-| `POST`  | `/api/v1/auth/logout/`          | Planned  |
-| `POST`  | `/api/v1/auth/password/change/` | Planned  |
-| `POST`  | `/api/v1/auth/password/reset/`  | Planned  |
+| `POST`  | `/api/v1/auth/login/`           | Complete |
+| `POST`  | `/api/v1/auth/token/refresh/`   | Complete |
+| `GET`   | `/api/v1/auth/me/`              | Complete |
+| `PATCH` | `/api/v1/auth/me/`              | Complete |
+| `POST`  | `/api/v1/auth/logout/`          | Complete |
+| `POST`  | `/api/v1/auth/password/change/` | Complete |
+| `POST`  | `/api/v1/auth/password/reset/`  | Complete |
 
 ---
 
