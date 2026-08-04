@@ -43,9 +43,9 @@ This document tracks the implementation progress of the Identity module.
 
 | Feature                             | Status  |
 | ----------------------------------- | ------- |
-| JWT access-token generation         | Planned |
-| JWT refresh-token endpoint          | Planned |
-| Authenticated user profile (`/me/`) | Planned |
+| JWT access-token generation         | Complete|
+| JWT refresh-token endpoint          | Complete|
+| Authenticated user profile (`/me/`) | Complete|
 | User profile update                 | Planned |
 | User logout                         | Planned |
 | Password change                     | Planned |

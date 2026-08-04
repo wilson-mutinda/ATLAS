@@ -1,5 +1,35 @@
 # Identity Module — Changelog
 
+## [0.4.0] - 2026-08-04
+
+### Added
+
+* Implemented `POST /api/v1/auth/token/refresh/`.
+* Added JWT access-token refresh functionality.
+* Added automated tests for valid and invalid refresh tokens.
+
+### Verified
+
+* A valid refresh token returns a new access token.
+* An invalid refresh token returns `401 Unauthorized`.
+* All 8 Identity tests pass successfully.
+---
+## [0.3.0] - 2026-08-04
+
+### Added
+
+- Implemented `GET /api/v1/auth/me/`.
+- Added authenticated user profile retrieval.
+- Added automated tests for authenticated profile access.
+- Added automated tests for unauthenticated profile access.
+
+### Verified
+
+- Authenticated requests return the current user's profile.
+- Requests without a valid access token return `401 Unauthorized`.
+- All Identity tests pass successfully.
+---
+
 ## [0.2.0] - 2026-08-04
 
 ### Added
@@ -16,22 +46,6 @@
 * Invalid credentials are rejected.
 * Missing password is rejected.
 * All four Login tests pass.
----
-
-## [0.3.0] - 2026-08-04
-
-### Added
-
-- Implemented `GET /api/v1/auth/me/`.
-- Added authenticated user profile retrieval.
-- Added automated tests for authenticated profile access.
-- Added automated tests for unauthenticated profile access.
-
-### Verified
-
-- Authenticated requests return the current user's profile.
-- Requests without a valid access token return `401 Unauthorized`.
-- All Identity tests pass successfully.
 ---
 
 ## Version 0.1.0 — August 3, 2026

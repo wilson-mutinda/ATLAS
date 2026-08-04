@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.identity.models import User
 
@@ -146,6 +147,58 @@ class CurrentUserAPITestCase(APITestCase):
 
     def test_unauthenticated_user_cannot_get_profile(self):
         response = self.client.get(self.url)
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+
+class TokenRefreshAPITestCase(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            email="admin@atlas.com",
+            password="Atlas@123",
+            first_name="wilson",
+            last_name="mutinda",
+        )
+
+        self.url = reverse("token-refresh")
+
+        self.refresh_token = str(
+            RefreshToken.for_user(self.user)
+        )
+
+    def test_user_can_refresh_access_token(self):
+        data = {
+            "refresh": self.refresh_token,
+        }
+
+        response = self.client.post(
+            self.url,
+            data,
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+
+        self.assertIn(
+            "access",
+            response.data,
+        )
+
+    def test_refresh_fails_with_invalid_token(self):
+        data = {
+            "refresh": "invalid-token",
+        }
+
+        response = self.client.post(
+            self.url,
+            data,
+            format="json",
+        )
 
         self.assertEqual(
             response.status_code,

@@ -428,6 +428,98 @@ The exact validation messages are controlled by the Identity serializer and Djan
 POST /api/v1/auth/login/
 ```
 
+## Get Current User
+
+### Endpoint
+
+```http
+GET /api/v1/auth/me/
+```
+
+### Authentication
+
+JWT access token is required.
+
+### Request Header
+
+```http
+Authorization: Bearer <access_token>
+```
+
+### Success Response
+
+**Status:** `200 OK`
+
+```json
+{
+    "user": {
+        "id": 1,
+        "email": "admin@atlas.com",
+        "first_name": "Wilson",
+        "last_name": "Mutinda"
+    }
+}
+```
+
+### Unauthorized Response
+
+**Status:** `401 Unauthorized`
+
+```json
+{
+    "detail": "Authentication credentials were not provided."
+}
+```
+
+## Refresh Access Token
+
+### Endpoint
+
+```http
+POST /api/v1/auth/token/refresh/
+```
+
+### Authentication
+
+No access token is required. A valid refresh token must be provided in the request body.
+
+### Request
+
+```json
+{
+    "refresh": "<refresh_token>"
+}
+```
+
+### Success Response
+
+**Status:** `200 OK`
+
+```json
+{
+    "access": "<new_access_token>"
+}
+```
+
+### Failure Response
+
+**Status:** `401 Unauthorized`
+
+```json
+{
+    "detail": "Token is invalid or expired",
+    "code": "token_not_valid"
+}
+```
+
+### Rules
+
+* The refresh token must be valid.
+* The refresh token must not be expired.
+* A new access token is generated when the refresh token is accepted.
+* The user does not need to enter their email or password again.
+
+
 ---
 
 ## 8.2 Purpose
