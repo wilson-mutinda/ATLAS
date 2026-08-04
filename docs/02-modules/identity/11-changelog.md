@@ -1,5 +1,23 @@
 # Identity Module — Changelog
 
+## [0.2.0] - 2026-08-04
+
+### Added
+
+* Implemented the user Login API.
+* Added email and password authentication.
+* Added JWT access-token generation.
+* Added JWT refresh-token generation.
+* Added Login API automated tests.
+
+### Verified
+
+* Successful login returns user information and JWT tokens.
+* Invalid credentials are rejected.
+* Missing password is rejected.
+* All four Login tests pass.
+---
+
 ## Version 0.1.0 — August 3, 2026
 
 ### Added
