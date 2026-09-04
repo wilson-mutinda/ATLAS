@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 
 import environ
+import os
 
 # Base directory: backend/
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -47,6 +48,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
 ]
 
@@ -164,3 +166,25 @@ CORS_ALLOWED_ORIGINS = env.list(
 )
 
 AUTH_USER_MODEL = "identity.User"
+
+FRONTEND_URL = env(
+    "FRONTEND_URL",
+    default="http://localhost:5173",
+)
+
+DEFAULT_FROM_EMAIL = env(
+    "DEFAULT_FROM_EMAIL",
+    default="info@fixkraftdigital.co.ke",
+)
+
+EMAIL_BACKEND = env(
+    "EMAIL_BACKEND",
+    default="django.core.mail.backends.smtp.EmailBackend",
+)
+
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env.int("EMAIL_PORT", default=465)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)
+EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=True)

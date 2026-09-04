@@ -204,3 +204,190 @@ class TokenRefreshAPITestCase(APITestCase):
             response.status_code,
             status.HTTP_401_UNAUTHORIZED,
         )
+
+class LogoutAPITestCase(APITestCase):
+    def setUp(self):
+        self.password = 'Atlas@123'
+
+        self.user = User.objects.create_user(
+            email='admin@atlas.com',
+            password=self.password,
+            first_name="wilson",
+            last_name="mutinda",
+        )
+
+        self.login_url = reverse("login")
+        self.logout_url = reverse("logout")
+
+        login_response = self.client.post(
+            self.login_url,
+            {
+                "email": "admin@atlas.com",
+                "password": self.password,
+            },
+            format="json",
+        )
+
+        self.access_token = login_response.data["access"]
+        self.refresh_token = login_response.data["refresh"]
+
+    def test_authenticated_user_can_logout(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {self.access_token}"
+        )
+
+        response = self.client.post(
+            self.logout_url,
+            {
+                "refresh": self.refresh_token,
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+
+        self.assertEqual(
+            response.data["message"],
+            "Logout successful.",
+        )
+
+    def test_logout_fails_with_invalid_refresh_token(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {self.access_token}"
+        )
+
+        response = self.client.post(
+            self.logout_url,
+            {
+                "refresh": "invalid-token",
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+        )
+
+    def test_logout_requires_authentication(self):
+        response = self.client.post(
+            self.logout_url,
+            {
+                "refresh": self.refresh_token,
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+
+class ChangePasswordAPITestCase(APITestCase):
+
+    def setUp(self):
+        self.password = "user1234"
+
+        self.user = User.objects.create_user(
+            email="admin@atlas.com",
+            password=self.password,
+            first_name="wilson",
+            last_name="mutinda",
+        )
+
+        self.login_url = reverse("login")
+        self.change_password_url = reverse("password-change")
+
+        login_response = self.client.post(
+            self.login_url,
+            {
+                "email": "admin@atlas.com",
+                "password": self.password,
+            },
+            format="json",
+        )
+
+        self.access_token = login_response.data["access"]
+
+    def test_authenticated_user_can_change_password(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {self.access_token}"
+        )
+
+        response = self.client.post(
+            self.change_password_url,
+            {
+                "current_password": self.password,
+                "new_password": "user12345",
+                "new_password_confirm": "user12345",
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+
+        self.assertEqual(
+            response.data["message"],
+            "Password changed successfully.",
+        )
+
+    def test_change_password_requires_authentication(self):
+        response = self.client.post(
+            self.change_password_url,
+            {
+                "current_password": self.password,
+                "new_password": "user12345",
+                "new_password_Confirm": "user12345",
+            },
+            format="json",
+        )  
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+
+    def test_change_password_rejects_wrong_current_password(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {self.access_token}"
+        )  
+
+        response = self.client.post(
+            self.change_password_url,
+            {
+                "current_password": "user12345",
+                "new_password": "user1234",
+                "new_password_confirm": "user1234",
+            },
+            format="json",
+        )
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+        )
+
+    def test_change_password_rejects_mismatched_passwords(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {self.access_token}"
+        )
+
+        response = self.client.post(
+            self.change_password_url,
+            {
+                "current_password": self.password,
+                "new_password": "user12345",
+                "new_password_confirm": "user1234",
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+        )

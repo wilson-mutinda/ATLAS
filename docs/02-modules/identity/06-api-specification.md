@@ -744,33 +744,29 @@ Planned
 
 # 11. User Logout API
 
-## 11.1 Endpoint
+## Logout
 
-```http
+### Endpoint
+
+```text
 POST /api/v1/auth/logout/
 ```
 
----
+### Authentication
 
-## 11.2 Purpose
+JWT access token required.
 
-The logout endpoint will end the authenticated user's session.
+### Request Body
 
-The final logout design will determine whether refresh tokens are invalidated using token blacklisting.
-
----
-
-## 11.3 Authentication
-
-Required.
-
-```http
-Authorization: Bearer <access_token>
+```json
+{
+    "refresh": "<refresh_token>"
+}
 ```
 
----
+### Success Response
 
-## 11.4 Planned Success Response
+**Status:** `200 OK`
 
 ```json
 {
@@ -778,21 +774,39 @@ Authorization: Bearer <access_token>
 }
 ```
 
----
+### Failure Responses
 
-## 11.5 Planned Status
+**Missing refresh token — `400 Bad Request`**
 
-```http
-200 OK
+```json
+{
+    "refresh": [
+        "This field is required."
+    ]
+}
 ```
 
----
+**Invalid or expired refresh token — `400 Bad Request`**
 
-## 11.6 Implementation Status
-
-```text
-Planned
+```json
+{
+    "detail": "Invalid or expired refresh token."
+}
 ```
+
+**Missing or invalid access token — `401 Unauthorized`**
+
+The request is rejected because the logout endpoint requires an authenticated user.
+
+### Behavior
+
+When logout succeeds:
+
+1. The supplied refresh token is added to the JWT blacklist.
+2. The refresh token cannot be used to obtain another access token.
+3. The client must delete its stored access and refresh tokens.
+4. Any existing access token remains valid until it expires.
+
 
 ---
 

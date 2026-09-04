@@ -115,7 +115,18 @@ Password mismatch example:
 ```
 ---
 
-## 9. Implementation Status
+## 9. Logout Validation
+
+| Field        | Rule                                   |
+| ------------ | -------------------------------------- |
+| `refresh`    | Required                               |
+| `refresh`    | Must be a valid JWT refresh token      |
+| Access token | Required in the `Authorization` header |
+
+The refresh token must belong to a valid Atlas user and must not already be blacklisted.
+
+
+## 10. Implementation Status
 | Validation Area                       | Status                            |
 | ------------------------------------- | --------------------------------- |
 | Email format validation               | Implemented                       |
@@ -131,7 +142,7 @@ Password mismatch example:
 
 ---
 
-## 10. Review Checklist
+## 11. Review Checklist
 Before approving an Identity feature, confir that:
 * [ ] Required fields are validated.
 * [ ] Invalid data is rejected.
@@ -145,4 +156,4 @@ Before approving an Identity feature, confir that:
 **Document Version:** `0.1.0`
 **Module**: Identity
 **Status**: Draft
-**Last Updated**: August 2, 2026
+**Last Updated**: August 7, 2026

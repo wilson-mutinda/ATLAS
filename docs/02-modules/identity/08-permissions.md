@@ -121,7 +121,26 @@ Expected HTTP status:
 
 ---
 
-## 9. Future Permissions
+## 9. Logout Permission
+
+| Endpoint                    | Authentication | Permission               |
+| --------------------------- | -------------- | ------------------------ |
+| `POST /api/v1/auth/logout/` | Required       | Authenticated users only |
+
+The logout endpoint uses:
+
+```python
+IsAuthenticated
+```
+
+The client must send:
+
+```text
+Authorization: Bearer <access_token>
+```
+
+
+## 10. Future Permissions
 
 The following features are planned for future Atlas versions:
 
@@ -136,7 +155,7 @@ These features are outside the current Identity module implementation.
 
 ---
 
-## 10. Implementation Status
+## 11. Implementation Status
 
 | Permission Feature              | Status   |
 | ------------------------------- | -------- |
@@ -150,7 +169,7 @@ These features are outside the current Identity module implementation.
 
 ---
 
-## 11. Review Checklist
+## 12. Review Checklist
 
 * [ ] Public endpoints explicitly allow unauthenticated access.
 * [ ] Protected endpoints require a valid JWT access token.

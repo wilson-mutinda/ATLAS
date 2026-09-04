@@ -198,11 +198,22 @@ HTTP 401 Unauthorized
 | User login                   | Not implemented |
 | Token refresh                | Not implemented |
 | Authenticated profile        | Not implemented |
-| Logout                       | Not implemented |
+| Logout                       | Implemented     |
 
 ---
 
-## 8. Test Completion Rules
+## 8. Logout Tests
+| Test                                                   | Expected Result                           |
+| ------------------------------------------------------ | ----------------------------------------- |
+| Authenticated user logs out with a valid refresh token | `200 OK`                                  |
+| Logged-out refresh token is used to refresh access     | Request is rejected                       |
+| Refresh-token is missing                               | `400 Bad Request`                         |
+| Refresh-token is invalid                               | `400 Bad Request`                         |
+| Access token is missing                                | `401 Unauthorized`                        |
+
+----
+
+## 9. Test Completion Rules
 
 An Identity feature is complete only when:
 

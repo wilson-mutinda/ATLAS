@@ -1,5 +1,16 @@
 # Identity Module — Changelog
 
+## Version 0.5.0
+
+### Added
+- Logout endpoint.
+- Refresh token blacklisting.
+- Logout serializer.
+- Logout API tests.
+- Postman verification.
+
+---
+
 ## [0.4.0] - 2026-08-04
 
 ### Added
