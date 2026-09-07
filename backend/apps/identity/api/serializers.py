@@ -3,7 +3,58 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
+from django.contrib.auth.password_validation import validate_password
+
 from apps.identity.models import User
+
+# Add Registerserializer
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, trim_whitespace=False)
+    consfirm_password = serializers.CharField(write_only=True, trim_whitespace=False)
+
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'password', 'confirm_password')
+        extra_kwargs = {
+            'first_name': {
+                'required': True
+            },
+            'last_name': {
+                'required': True
+            },
+            'email': {
+                'required': True
+            },
+        }
+
+    def validate(self, attrs):
+        # check passwords match
+        if attrs['password'] != attrs['confirm_password']:
+            raise serializers.ValidationError({
+                'confirm_password': "Passwords do not match."
+            })
+
+        # Optional: validate password through using Django's validators
+        validate_password(attrs['password'])
+
+        # Check email uniqueness
+        if User.objects.filter(email=attrs['email'].lower()).exists():
+            raise serializers.ValidationError({
+                'email': 'A user with this email already exists.'
+            })
+
+        return attrs
+
+    def create(self, validated_data):
+        # Remove confirm_password as it's not a model field
+        validated_data.pop('confirm_password')
+
+        # Set username to email
+        validated_data['username'] = validated_data['email']
+
+        # Create user using create_user
+        user = User.objects.create_user(**validated_data)
+        return user
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
